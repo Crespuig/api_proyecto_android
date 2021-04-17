@@ -74,8 +74,8 @@ public class MonumentoController {
 	}
 
 	@CrossOrigin
-	@PutMapping("/monumentos/update/{id}")
-	Monumento actualizaMonumeto(@RequestBody Monumento newMonument, @PathVariable int id) {
+	@PutMapping("/monumentos/actualizar/{id}")
+	Monumento actualizarMonumeto(@RequestBody Monumento newMonument, @PathVariable int id) {
 
 		return monumentoRepository.findById(id).map(monument -> {
 			monument.setCodvia(newMonument.getCodvia());
@@ -93,7 +93,7 @@ public class MonumentoController {
 	}
 
 	@CrossOrigin
-	@DeleteMapping("/monumentos/delete/{id}")
+	@DeleteMapping("/monumentos/borrar/{id}")
 	void borrarMonumeto(@PathVariable int id) {
 		monumentoRepository.deleteById(id);
 	}

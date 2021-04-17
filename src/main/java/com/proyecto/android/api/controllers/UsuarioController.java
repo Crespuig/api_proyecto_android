@@ -44,7 +44,7 @@ public class UsuarioController {
 	@CrossOrigin
 	@PostMapping("/usuarios/new")
 	@ResponseBody
-	public Usuario newUser(@RequestBody Usuario newUser) {
+	public Usuario nuevoUsuario(@RequestBody Usuario newUser) {
 		List<Usuario> users = repository.findAll();
 		boolean encontrado = false;
 		for (Usuario userHector : users) {
@@ -72,7 +72,7 @@ public class UsuarioController {
 	@CrossOrigin
 	@PutMapping("/usuarios/update/{id}")
 	@ResponseBody
-	Usuario replaceUser(@RequestBody Usuario newUser, @PathVariable int id) {
+	Usuario actualizarUsuario(@RequestBody Usuario newUser, @PathVariable int id) {
 
 		return repository.findById(id).map(user -> {
 			user.setEmail(newUser.getEmail());
@@ -89,7 +89,7 @@ public class UsuarioController {
 	@CrossOrigin
 	@DeleteMapping("/usuarios/delete/{id}")
 	@ResponseBody
-	public ResponseEntity<Usuario> deleteUser(@PathVariable int id) {
+	public ResponseEntity<Usuario> borrarUsuario(@PathVariable int id) {
 		final String USER_EMAIL = "admin@admin.es";
 		Optional<Usuario> userFromDatabase = repository.findById(id);
 		if (userFromDatabase.isPresent()) {
@@ -119,7 +119,7 @@ public class UsuarioController {
 	// @PostMapping("/usuarios/registro")
 
 	@PostMapping("/usuarios/registro")
-	public ResponseEntity<Usuario> signUp(@RequestBody Usuario user) {
+	public ResponseEntity<Usuario> registrar(@RequestBody Usuario user) {
 		return new ResponseEntity<Usuario>(repository.save(user), HttpStatus.OK);
 	}
 
