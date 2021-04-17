@@ -1,5 +1,7 @@
 package com.proyecto.android.api.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -14,7 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "favoritos")
-public class Favorito {
+public class Favorito implements Serializable{
 	
 	@Id
 	@Column(name = "id")

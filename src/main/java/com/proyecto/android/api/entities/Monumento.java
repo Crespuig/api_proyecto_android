@@ -1,5 +1,6 @@
 package com.proyecto.android.api.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,7 +19,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "monumentos")
-public class Monumento {
+public class Monumento implements Serializable{
 
 	@Id
 	@Column(name = "idnotes")

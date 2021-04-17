@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.proyecto.android.api.entities.Monumento;
+import com.proyecto.android.api.exceptions.MonumentNotFoundException;
 import com.proyecto.android.api.repository.MonumentoRepository;
 
 @RestController
@@ -46,5 +47,55 @@ public class MonumentoController {
 	List<Monumento> all() {
 		return monumentoRepository.findAll();
 	}
-	
+
+	@CrossOrigin
+	@GetMapping("/monumentos/{id}")
+	Monumento one(@PathVariable int id) {
+		return monumentoRepository.findById(id).orElseThrow(() -> new MonumentNotFoundException(id));
+	}
+
+	@CrossOrigin
+	@PostMapping("/monumentos/insertar")
+	Monumento insertarMonumeto(@RequestBody Monumento newMonument) {
+		List<Monumento> monumentos = monumentoRepository.findAll();
+		boolean encontrado = false;
+		for (Monumento m : monumentos) {
+			if (m.getIdnotes() == newMonument.getIdnotes()) {
+				encontrado = true;
+			}
+		}
+
+		if (!encontrado) {
+			return monumentoRepository.save(newMonument);
+		} else {
+			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Ya existe un monumentos con ese id");
+		}
+
+	}
+
+	@CrossOrigin
+	@PutMapping("/monumentos/update/{id}")
+	Monumento actualizaMonumeto(@RequestBody Monumento newMonument, @PathVariable int id) {
+
+		return monumentoRepository.findById(id).map(monument -> {
+			monument.setCodvia(newMonument.getCodvia());
+			monument.setNombre(newMonument.getNombre());
+			monument.setNumpol(newMonument.getNumpol());
+			monument.setRuta(newMonument.getRuta());
+			monument.setTelefono(newMonument.getTelefono());
+			monument.setX(newMonument.getX());
+			monument.setY(newMonument.getY());
+			return monumentoRepository.save(monument);
+		}).orElseGet(() -> {
+			newMonument.setIdnotes(id);
+			return monumentoRepository.save(newMonument);
+		});
+	}
+
+	@CrossOrigin
+	@DeleteMapping("/monumentos/delete/{id}")
+	void borrarMonumeto(@PathVariable int id) {
+		monumentoRepository.deleteById(id);
+	}
+
 }
