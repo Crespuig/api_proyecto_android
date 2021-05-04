@@ -41,26 +41,6 @@ public class UsuarioController {
 	}
 	// end::get-aggregate-root[]
 
-	@CrossOrigin
-	@PostMapping("/usuarios/new")
-	@ResponseBody
-	public Usuario nuevoUsuario(@RequestBody Usuario newUser) {
-		List<Usuario> users = repository.findAll();
-		boolean encontrado = false;
-		for (Usuario userHector : users) {
-			if (userHector.getEmail().equals(newUser.getEmail())) {
-				encontrado = true;
-			}
-		}
-
-		if (!encontrado) {
-			return repository.save(newUser);
-		} else {
-			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "El usuario ya existe");
-		}
-
-	}
-
 	// Single item
 
 	@GetMapping("/usuarios/{id}")
@@ -70,7 +50,7 @@ public class UsuarioController {
 	}
 
 	@CrossOrigin
-	@PutMapping("/usuarios/update/{id}")
+	@PutMapping("/usuarios/{id}")
 	@ResponseBody
 	Usuario actualizarUsuario(@RequestBody Usuario newUser, @PathVariable int id) {
 
@@ -87,7 +67,7 @@ public class UsuarioController {
 	}
 
 	@CrossOrigin
-	@DeleteMapping("/usuarios/delete/{id}")
+	@DeleteMapping("/usuarios/{id}")
 	@ResponseBody
 	public ResponseEntity<Usuario> borrarUsuario(@PathVariable int id) {
 		final String USER_EMAIL = "admin@admin.es";

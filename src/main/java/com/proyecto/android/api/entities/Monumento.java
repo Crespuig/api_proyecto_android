@@ -9,6 +9,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "monumentos")
-public class Monumento implements Serializable{
+public class Monumento implements Serializable {
 
 	@Id
 	@Column(name = "idnotes")
@@ -39,19 +40,22 @@ public class Monumento implements Serializable{
 
 	@Column(name = "codvia")
 	private String codvia;
-	
+
 	@Column(name = "telefono")
 	private String telefono;
-	
+
 	@Column(name = "ruta")
 	private String ruta;
+
+	@Column(name = "img")
+	private String img;
 
 	public Monumento() {
 		super();
 	}
 
 	public Monumento(int idnotes, String nombre, String x, String y, String numpol, String codvia, String telefono,
-			String ruta) {
+			String ruta, String img) {
 		super();
 		this.idnotes = idnotes;
 		this.nombre = nombre;
@@ -61,6 +65,7 @@ public class Monumento implements Serializable{
 		this.codvia = codvia;
 		this.telefono = telefono;
 		this.ruta = ruta;
+		this.img = img;
 	}
 
 	public int getIdnotes() {
@@ -126,5 +131,13 @@ public class Monumento implements Serializable{
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
 	}
-	
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
 }

@@ -29,6 +29,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.proyecto.android.api.entities.Monumento;
 import com.proyecto.android.api.exceptions.MonumentNotFoundException;
 import com.proyecto.android.api.repository.MonumentoRepository;
+import com.proyecto.android.api.utils.GeoConvert;
 
 @RestController
 public class MonumentoController {
@@ -45,17 +46,24 @@ public class MonumentoController {
 	@CrossOrigin
 	@GetMapping("/monumentos")
 	List<Monumento> all() {
-		return monumentoRepository.findAll();
+		List<Monumento> monumentos = monumentoRepository.findAll();
+		List<Monumento> m = new ArrayList<>();
+		for (Monumento monumento : monumentos) {
+			m.add(convertirCoordenadas(monumento));
+		}
+	
+		return m;
 	}
 
 	@CrossOrigin
 	@GetMapping("/monumentos/{id}")
 	Monumento one(@PathVariable int id) {
-		return monumentoRepository.findById(id).orElseThrow(() -> new MonumentNotFoundException(id));
+		Monumento m = monumentoRepository.findById(id).orElseThrow(() -> new MonumentNotFoundException(id));
+		return convertirCoordenadas(m);
 	}
 
 	@CrossOrigin
-	@PostMapping("/monumentos/insertar")
+	@PostMapping("/monumentos")
 	Monumento insertarMonumeto(@RequestBody Monumento newMonument) {
 		List<Monumento> monumentos = monumentoRepository.findAll();
 		boolean encontrado = false;
@@ -74,7 +82,7 @@ public class MonumentoController {
 	}
 
 	@CrossOrigin
-	@PutMapping("/monumentos/actualizar/{id}")
+	@PutMapping("/monumentos/{id}")
 	Monumento actualizarMonumeto(@RequestBody Monumento newMonument, @PathVariable int id) {
 
 		return monumentoRepository.findById(id).map(monument -> {
@@ -93,9 +101,20 @@ public class MonumentoController {
 	}
 
 	@CrossOrigin
-	@DeleteMapping("/monumentos/borrar/{id}")
+	@DeleteMapping("/monumentos/{id}")
 	void borrarMonumeto(@PathVariable int id) {
 		monumentoRepository.deleteById(id);
+	}
+	
+	private Monumento convertirCoordenadas(Monumento monumento) {
+		double x = Double.parseDouble(monumento.getX());
+		double y = Double.parseDouble(monumento.getY());
+		
+		double[] latLong = GeoConvert.UTMToLatLong(y, x, 30);
+		monumento.setX(latLong[0] + "");
+		monumento.setY(latLong[1] + "");
+		
+		return monumento;
 	}
 
 }
