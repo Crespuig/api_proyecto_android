@@ -30,10 +30,10 @@ public class Monumento implements Serializable {
 	private String nombre;
 
 	@Column(name = "X")
-	private String X;
+	private double X;
 
 	@Column(name = "Y")
-	private String Y;
+	private double Y;
 
 	@Column(name = "numpol")
 	private String numpol;
@@ -54,7 +54,7 @@ public class Monumento implements Serializable {
 		super();
 	}
 
-	public Monumento(int idnotes, String nombre, String x, String y, String numpol, String codvia, String telefono,
+	public Monumento(int idnotes, String nombre, double x, double y, String numpol, String codvia, String telefono,
 			String ruta, String img) {
 		super();
 		this.idnotes = idnotes;
@@ -84,19 +84,19 @@ public class Monumento implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getX() {
+	public double getX() {
 		return X;
 	}
 
-	public void setX(String x) {
+	public void setX(double x) {
 		X = x;
 	}
 
-	public String getY() {
+	public double getY() {
 		return Y;
 	}
 
-	public void setY(String y) {
+	public void setY(double y) {
 		Y = y;
 	}
 

@@ -107,12 +107,12 @@ public class MonumentoController {
 	}
 	
 	private Monumento convertirCoordenadas(Monumento monumento) {
-		double x = Double.parseDouble(monumento.getX());
-		double y = Double.parseDouble(monumento.getY());
+		double x = monumento.getX();
+		double y = monumento.getY();
 		
 		double[] latLong = GeoConvert.UTMToLatLong(y, x, 30);
-		monumento.setX(latLong[0] + "");
-		monumento.setY(latLong[1] + "");
+		monumento.setX(latLong[0]);
+		monumento.setY(latLong[1]);
 		
 		return monumento;
 	}
